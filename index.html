@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Buddies - Share the Love of Reading</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .top-buttons {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+            padding: 0.5rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow);
+        }
+
+        .settings-button {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .settings-button:hover {
+            transform: rotate(45deg) scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .settings-button i {
+            color: var(--accent);
+            transition: color 0.3s ease;
+        }
+
+        .settings-button:hover i {
+            color: var(--primary);
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --glass: rgba(255, 255, 255, 0.15);
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-wrapper {
+            margin: 0 auto 2rem;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 
+                0 8px 32px rgba(31, 38, 135, 0.15),
+                inset 0 0 12px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: perspective(800px) rotateY(5deg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(67, 97, 238, 0.1),
+                rgba(247, 37, 133, 0.1),
+                rgba(67, 97, 238, 0.1)
+            );
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: shine 6s infinite linear;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        .logo-wrapper:hover {
+            transform: perspective(800px) rotateY(0) scale(1.05);
+            box-shadow: 
+                0 12px 40px rgba(31, 38, 135, 0.25),
+                inset 0 0 16px rgba(255,255,255,0.15);
+        }
+        
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: 
+                drop-shadow(0 2px 4px rgba(0,0,0,0.2))
+                drop-shadow(0 4px 8px rgba(67, 97, 238, 0.3));
+            transition: all 0.4s ease;
+        }
+        
+        .logo-wrapper:hover .logo-img {
+            filter: 
+                drop-shadow(0 4px 8px rgba(0,0,0,0.3))
+                drop-shadow(0 8px 16px rgba(247, 37, 133, 0.4));
+            transform: scale(1.05);
+        }
+        
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .accounts-button {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .accounts-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .accounts-button i {
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .accounts-button:hover i {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .section {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .section:hover {
+            transform: translateY(-0.5rem);
+            box-shadow: 0 15px 30px rgba(31, 38, 135, 0.2);
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h2 i {
+            color: var(--accent);
+        }
+        
+        .book-list, .wishlist, .notifications, .tracking {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            padding-right: 0.5rem;
+        }
+        
+        .track-item {
+            padding: 1rem;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+            margin: 0.75rem 0;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .track-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .track-status {
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+        
+        .track-days {
+            font-size: 0.75rem;
+            color: var(--secondary);
+        }
+        
+.tracking-tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+        
+        .tracking-tab {
+    padding: 0.5rem 0.8rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    color: var(--dark);
+    font-weight: 500;
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.tracking-tab-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--glass);
+    backdrop-filter: blur(10px);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-content a {
+    color: var(--dark);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255,255,255,0.2);
+    color: var(--accent);
+}
+
+.tracking-tab-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+body.dark .dropdown-content {
+    background-color: rgba(45, 52, 54, 0.8);
+}
+
+body.dark .dropdown-content a {
+    color: var(--light);
+}
+        
+        body.dark .tracking-tab {
+            color: var(--light);
+        }
+        
+        .tracking-tab.active {
+            border-bottom-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .tracking-tab-content {
+            display: none;
+        }
+        
+        .tracking-tab-content.active {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 1rem;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+            margin: 0.75rem 0;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .notification-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .delete-notification {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .delete-notification:hover {
+            background: rgba(247, 37, 133, 0.1);
+            transform: scale(1.1);
+        }
+
+        .notification-item.removing {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        
+        .book-item:hover, .wish-item:hover, .notification-item:hover, .track-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(0.5rem);
+        }
+        
+        button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .form-group {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        input, select {
+            padding: 0.75rem 1.25rem;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 2rem;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(67, 97, 238, 0.5);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Dark mode */
+        body.dark {
+            background: linear-gradient(135deg, #0f0c29, #302b63);
+            color: var(--light);
+        }
+        
+        body.dark .section {
+            background: rgba(45, 52, 54, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        body.dark input,
+        body.dark select {
+            background: rgba(45, 52, 54, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        body.dark .book-item,
+        body.dark .wish-item,
+        body.dark .notification-item,
+        body.dark .track-item {
+            background: rgba(45, 52, 54, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .book-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .book-location {
+            font-size: 0.75rem;
+            color: var(--secondary);
+        }
+        
+        .book-status {
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-top: 0.25rem;
+        }
+        
+        .location-filter {
+            margin: 1rem auto;
+            text-align: center;
+        }
+        
+        .location-filter select {
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid var(--primary);
+            background: var(--glass);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group {
+                flex-direction: column;
+            }
+            
+            input, select {
+                max-width: 100%;
+            }
+        }
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--dark);
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Modal -->
+    <div id="authModal" class="auth-modal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h2 id="authTitle"></h2>
+                <span class="close-modal" onclick="closeAuthModal()">&times;</span>
+            </div>
+            <form id="authForm" class="auth-form"></form>
+        </div>
+    </div>
+
+    <div class="auth-buttons">
+        <button class="login-btn" onclick="openAuthModal('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="signup-btn" onclick="openAuthModal('signup')"><i class="fas fa-user-plus"></i> Sign Up</button>
+    </div>
+
+    <style>
+        .auth-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .auth-modal-content {
+            background-color: var(--glass);
+            backdrop-filter: blur(10px);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .auth-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            padding: 1rem;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: inherit;
+            font-size: 1rem;
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .auth-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .google-btn {
+            margin: 0 auto;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1rem 0;
+            position: relative;
+            color: var(--secondary);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <div class="top-buttons">
+        <div class="settings-button" onclick="openSettings()">
+            <i class="fas fa-cog"></i>
+        </div>
+        <div class="accounts-button" onclick="toggleAccountMenu()">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </div>
+    </div>
+    
+    <div class="header">
+        <div class="logo-wrapper">
+            <img src="C:/Users/Dell/OneDrive/Desktop/book-buddies-high-resolution-logo (4).png" alt="Book Buddies Logo" class="logo-img">
+        </div>
+        <h1>Book <span>Buddies</span></h1>
+        <p class="tagline">Share the Love of Reading with Your Community</p>
+    </div>
+    
+    <div class="container">
+        <!-- Book Exchange Section -->
+        <div class="section">
+            <h2><i class="fas fa-exchange-alt"></i> Exchange Books</h2>
+            <div class="form-group">
+                <input type="text" id="bookTitle" placeholder="Book Title" required>
+                <input type="text" id="bookLocation" placeholder="Your Location (e.g. City)" required>
+                <select id="action">
+                    <option value="lend">Lend</option>
+                    <option value="borrow">Borrow</option>
+                    <option value="donate">Donate</option>
+                    <option value="return">Return</option>
+                </select>
+                <select id="conditionRating">
+                    <option value="new">New</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                    <option value="poor">Poor</option>
+                </select>
+                <select id="language">
+                    <option value="english">English</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="french">French</option>
+                </select>
+                <select id="edition">
+                    <option value="first">First Edition</option>
+                    <option value="latest">Latest Edition</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="readingLevel">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+                <input type="text" id="conditionDescription" placeholder="Condition Description (optional)">
+                <button onclick="addBook()"><i class="fas fa-plus"></i> Add Book</button>
+            </div>
+        <div class="location-filter">
+            <select id="locationFilter" onchange="filterBooks()">
+                <option value="all">All Locations</option>
+                <!-- Locations will be added dynamically -->
+            </select>
+        </div>
+        <div class="book-list" id="bookList">
+                <div class="book-item">
+                    <i class="fas fa-book"></i>
+                    <span>Sample Book - Available to Lend</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wishlist Section -->
+        <div class="section">
+            <h2><i class="fas fa-heart"></i> Your Wishlist</h2>
+            <div class="form-group">
+                <input type="text" id="wishTitle" placeholder="Book Title" required>
+                <select id="wishGenre">
+                    <option value="fiction">Fiction</option>
+                    <option value="non-fiction">Non-Fiction</option>
+                    <option value="biography">Biography</option>
+                    <option value="self-help">Self-Help</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="wishPriority">
+                    <option value="low">Low Priority</option>
+                    <option value="medium" selected>Medium Priority</option>
+                    <option value="high">High Priority</option>
+                </select>
+                <select id="wishFormat">
+                    <option value="any">Any Format</option>
+                    <option value="hardcover">Hardcover</option>
+                    <option value="paperback">Paperback</option>
+                    <option value="ebook">eBook</option>
+                </select>
+                <input type="text" id="wishReason" placeholder="Reason for Wishlist (optional)">
+                <input type="text" id="wishRecommendedBy" placeholder="Recommended By (optional)">
+                <button onclick="addToWishlist()"><i class="fas fa-plus"></i> Add</button>
+            </div>
+            <div class="wishlist" id="wishlist">
+                <div class="wish-item">
+                    <div class="wish-priority high">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="wish-details">
+                        <div class="wish-title">"The Great Gatsby"</div>
+                        <div class="wish-meta">
+                            <span class="wish-genre">Fiction</span>
+                            <span class="wish-format">Hardcover</span>
+                            <span class="wish-reason">Classic novel</span>
+                            <span class="wish-recommended">Recommended by John</span>
+                        </div>
+                    </div>
+                    <button class="wish-actions" onclick="removeWishItem(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Center -->
+        <div class="section">
+            <h2><i class="fas fa-bell"></i> Notifications</h2>
+            <div class="notifications" id="notifications">
+                <div class="notification-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Your book "1984" has been borrowed!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tracking Section -->
+        <div class="section">
+            <h2><i class="fas fa-clock"></i> Track Your Books</h2>
+            <div class="tracking-tabs">
+                <button class="tracking-tab active" onclick="openTrackingTab('pending')">Pending</button>
+                <button class="tracking-tab" onclick="openTrackingTab('shipped')">Shipped</button>
+                <button class="tracking-tab" onclick="openTrackingTab('delivered')">Delivered</button>
+                <div class="tracking-tab-dropdown">
+                    <button class="tracking-tab" onclick="openTrackingTab('returned')">Return</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="openTrackingTab('return-requested')">Return Requested</a>
+                        <a href="#" onclick="openTrackingTab('return-in-progress')">Return In Progress</a>
+                        <a href="#" onclick="openTrackingTab('return-completed')">Return Completed</a>
+                        <a href="#" onclick="openTrackingTab('return-delayed')">Return Delayed</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tracking-content">
+                <div id="pending-tab" class="tracking-tab-content active">
+                    <div class="tracking" id="pending-tracking">
+                        <!-- Pending orders will appear here -->
+                    </div>
+                </div>
+                <div id="shipped-tab" class="tracking-tab-content">
+                    <div class="tracking" id="shipped-tracking">
+                        <!-- Shipped orders will appear here -->
+                    </div>
+                </div>
+                <div id="delivered-tab" class="tracking-tab-content">
+                    <div class="tracking" id="delivered-tracking">
+                        <!-- Delivered orders will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Account menu function
+        function toggleAccountMenu() {
+            const menu = document.createElement('div');
+            menu.className = 'account-menu';
+            menu.innerHTML = `
+                <div class="account-menu-item" onclick="openAuthModal('login')">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </div>
+                <div class="account-menu-item" onclick="openAuthModal('signup')">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Sign Up</span>
+                </div>
+                <div class="account-menu-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            `;
+            
+            // Style the menu
+            menu.style.position = 'fixed';
+            menu.style.top = '4.5rem';
+            menu.style.right = '4.5rem';
+            menu.style.background = 'var(--glass)';
+            menu.style.backdropFilter = 'blur(10px)';
+            menu.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+            menu.style.borderRadius = '0.75rem';
+            menu.style.padding = '0.5rem 0';
+            menu.style.boxShadow = 'var(--shadow)';
+            menu.style.zIndex = '1000';
+            menu.style.overflow = 'hidden';
+            menu.style.animation = 'fadeIn 0.3s ease-out forwards';
+            
+            // Style menu items
+            const items = menu.querySelectorAll('.account-menu-item');
+            items.forEach(item => {
+                item.style.padding = '0.75rem 1.5rem';
+                item.style.display = 'flex';
+                item.style.alignItems = 'center';
+                item.style.gap = '0.75rem';
+                item.style.cursor = 'pointer';
+                item.style.transition = 'all 0.2s ease';
+                
+                item.addEventListener('mouseenter', () => {
+                    item.style.background = 'rgba(255, 255, 255, 0.2)';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    item.style.background = 'transparent';
+                });
+            });
+            
+            // Close menu when clicking outside
+            const closeMenu = (e) => {
+                if (!e.target.closest('.account-menu') && !e.target.closest('.accounts-button')) {
+                    menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                }
+            };
+            
+            document.body.appendChild(menu);
+            setTimeout(() => document.addEventListener('click', closeMenu), 10);
+        }
+        
+        function logout() {
+            alert('Logged out successfully!');
+            document.querySelector('.account-menu')?.remove();
+        }
+
+        // Settings Modal
+        function openSettings() {
+            const modal = document.createElement('div');
+            modal.className = 'settings-modal';
+            modal.innerHTML = `
+                <div class="settings-content">
+                    <div class="settings-header">
+                        <h3><i class="fas fa-cog"></i> Settings</h3>
+                        <span class="close-settings" onclick="closeSettingsModal(this)">&times;</span>
+                    </div>
+                    <div class="settings-body">
+                        <div class="settings-group">
+                            <h4>Appearance</h4>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Dark Mode</span>
+                                    <label class="switch">
+                                        <input type="checkbox" ${document.body.classList.contains('dark') ? 'checked' : ''} onchange="toggleTheme()">
+                                        <span class="slider"></span>
+                                    </label>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Accent Color</span>
+                                    <input type="color" value="#f72585" onchange="document.documentElement.style.setProperty('--accent', this.value)">
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h4>Notifications</h4>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Enable Notifications</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Notification Sound</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h4>Privacy</h4>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Show Location</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Show Email</span>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Show Wishlist</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h4>Reading Preferences</h4>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Preferred Language</span>
+                                    <select>
+                                        <option>English</option>
+                                        <option>Hindi</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Default Book Condition</span>
+                                    <select>
+                                        <option>New</option>
+                                        <option>Good</option>
+                                        <option>Fair</option>
+                                        <option>Poor</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h4>Advanced Theme</h4>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Primary Color</span>
+                                    <input type="color" value="#4361ee" onchange="document.documentElement.style.setProperty('--primary', this.value)">
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Secondary Color</span>
+                                    <input type="color" value="#3f37c9" onchange="document.documentElement.style.setProperty('--secondary', this.value)">
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <span>Glass Effect Intensity</span>
+                                    <input type="range" min="0" max="100" value="15" onchange="document.documentElement.style.setProperty('--glass', 'rgba(255,255,255,' + (this.value/100) + ')')">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Style the modal
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '2000';
+            modal.style.backdropFilter = 'blur(5px)';
+            
+            document.body.appendChild(modal);
+        }
+
+        function closeSettingsModal(closeButton) {
+            const modal = closeButton.closest('.settings-modal');
+            modal.remove();
+        }
+
+        // Add settings styles
+        const settingsStyle = document.createElement('style');
+        settingsStyle.textContent = `
+            .settings-content {
+                background: var(--glass);
+                backdrop-filter: blur(20px);
+                border-radius: 1.5rem;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                width: 90%;
+                max-width: 500px;
+                max-height: 80vh;
+                overflow-y: auto;
+                box-shadow: var(--shadow);
+                animation: fadeIn 0.3s ease-out;
+            }
+            
+            .settings-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.5rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .settings-header h3 {
+                margin: 0;
+                color: var(--primary);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .close-settings {
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: var(--accent);
+            }
+            
+            .settings-body {
+                padding: 1.5rem;
+            }
+            
+            .settings-group {
+                margin-bottom: 1.5rem;
+            }
+            
+            .settings-group h4 {
+                margin: 0 0 1rem 0;
+                color: var(--primary);
+                font-size: 1rem;
+            }
+            
+            .setting-item {
+                padding: 0.75rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .setting-item:last-child {
+                border-bottom: none;
+            }
+            
+            .setting-item label {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                cursor: pointer;
+            }
+            
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 50px;
+                height: 24px;
+            }
+            
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(255,255,255,0.2);
+                transition: .4s;
+                border-radius: 24px;
+            }
+            
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+            
+            input:checked + .slider {
+                background-color: var(--accent);
+            }
+            
+            input:checked + .slider:before {
+                transform: translateX(26px);
+            }
+            
+            .setting-item input[type="color"] {
+                width: 30px;
+                height: 30px;
+                border: none;
+                background: none;
+                cursor: pointer;
+            }
+        `;
+        document.head.appendChild(settingsStyle);
+
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const icon = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('dark')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        // Initialize location filter on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLocationFilter();
+        });
+
+        let allBooks = [];
+        let locations = new Set(['Meerut', 'Muzaffarnagar']);
+        let orders = {
+            pending: [
+                { id: 1, book: "To Kill a Mockingbird", daysLeft: 5, status: "Pending pickup" }
+            ],
+            shipped: [
+                { id: 2, book: "1984", daysLeft: 3, status: "In transit" }
+            ],
+            delivered: [
+                { id: 3, book: "The Great Gatsby", daysLeft: 0, status: "Delivered" }
+            ],
+            returned: [
+                { id: 4, book: "Pride and Prejudice", daysLeft: 0, status: "Returned" }
+            ],
+            'return-requested': [
+                { id: 5, book: "The Hobbit", daysLeft: 2, status: "Return Requested" }
+            ],
+            'return-in-progress': [
+                { id: 6, book: "Dune", daysLeft: 1, status: "Return In Progress" }
+            ],
+            'return-completed': [
+                { id: 7, book: "Brave New World", daysLeft: 0, status: "Return Completed" }
+            ],
+            'return-delayed': [
+                { id: 8, book: "The Catcher in the Rye", daysLeft: 3, status: "Return Delayed" }
+            ]
+        };
+        
+        function updateLocationFilter() {
+            const filter = document.getElementById('locationFilter');
+            // Clear existing options except "All Locations"
+            while (filter.options.length > 1) {
+                filter.remove(1);
+            }
+            // Add new location options
+            locations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location;
+                filter.appendChild(option);
+            });
+        }
+        
+        function filterBooks() {
+            const location = document.getElementById('locationFilter').value;
+            const bookList = document.getElementById('bookList');
+            
+            // Clear current display
+            bookList.innerHTML = '';
+            
+            // Filter and display books
+            const booksToShow = location === 'all' 
+                ? allBooks 
+                : allBooks.filter(book => book.location === location);
+                
+            booksToShow.forEach(book => {
+                bookList.appendChild(book.element);
+            });
+        }
+        
+        function addBook() {
+            const title = document.getElementById('bookTitle').value.trim();
+            const location = document.getElementById('bookLocation').value.trim();
+            const action = document.getElementById('action').value;
+            const conditionRating = document.getElementById('conditionRating').value;
+            const language = document.getElementById('language').value;
+            const edition = document.getElementById('edition').value;
+            const readingLevel = document.getElementById('readingLevel').value;
+            const conditionDescription = document.getElementById('conditionDescription').value.trim();
+            
+            // Validate inputs
+            if (!title || !location) {
+                alert('Please fill in both book title and location');
+                return;
+            }
+
+            // Create book element
+            const bookList = document.getElementById('bookList');
+            const newBook = document.createElement('div');
+            newBook.className = 'book-item';
+            newBook.innerHTML = `
+                <i class="fas fa-book"></i>
+                <div class="book-details">
+                    <strong>${title}</strong>
+                    <div class="book-location">${location}</div>
+                    <div class="book-status">
+                        ${action === 'lend' ? 'Available to Lend' : ''}
+                        ${action === 'borrow' ? 'Requested to Borrow' : ''}
+                        ${action === 'donate' ? 'Available for Donation' : ''}
+                        ${action === 'return' ? 'Ready for Return' : ''}
+                    </div>
+                    <div class="book-meta">
+                        <span class="book-condition">Condition: ${conditionRating}</span>
+                        <span class="book-language">Language: ${language}</span>
+                        <span class="book-edition">Edition: ${edition}</span>
+                        <span class="book-level">Level: ${readingLevel}</span>
+                        ${conditionDescription ? `<div class="book-condition-desc">${conditionDescription}</div>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            // Store book data
+            const bookData = {
+                element: newBook,
+                location: location,
+                title: title,
+                action: action,
+                conditionRating: conditionRating,
+                language: language,
+                edition: edition,
+                readingLevel: readingLevel,
+                conditionDescription: conditionDescription
+            };
+            allBooks.push(bookData);
+            locations.add(location);
+            
+            // Add to book list
+            bookList.appendChild(newBook);
+            updateLocationFilter();
+            
+            // Add notification
+            const notifications = document.getElementById('notifications');
+            const newNotification = document.createElement('div');
+            newNotification.className = 'notification-item';
+            newNotification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-info-circle"></i>
+                <span>New ${action === 'donate' ? 'donation' : action === 'return' ? 'return' : action} request for "${title}" added!</span>
+                </div>
+                <button class="delete-notification" onclick="deleteNotification(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            notifications.appendChild(newNotification);
+            
+            // Scroll to latest notification
+            notifications.scrollTop = notifications.scrollHeight;
+            
+            // Clear inputs
+            document.getElementById('bookTitle').value = '';
+            document.getElementById('bookLocation').value = '';
+            
+            // Show success message
+            alert('Book added successfully!');
+        }
+
+        function addToWishlist() {
+            const title = document.getElementById('wishTitle').value.trim();
+            const genre = document.getElementById('wishGenre').value;
+            const priority = document.getElementById('wishPriority').value;
+            const format = document.getElementById('wishFormat').value;
+            const reason = document.getElementById('wishReason').value.trim();
+            const recommendedBy = document.getElementById('wishRecommendedBy').value.trim();
+            
+            if (title) {
+                const wishlist = document.getElementById('wishlist');
+                const newWish = document.createElement('div');
+                newWish.className = 'wish-item';
+                
+                let priorityIcon = 'fa-star';
+                if (priority === 'high') priorityIcon = 'fa-exclamation-circle';
+                if (priority === 'medium') priorityIcon = 'fa-bookmark';
+                
+                newWish.innerHTML = `
+                    <div class="wish-priority ${priority}">
+                        <i class="fas ${priorityIcon}"></i>
+                    </div>
+                    <div class="wish-details">
+                        <div class="wish-title">"${title}"</div>
+                    <div class="wish-meta">
+                            <span class="wish-genre">${genre}</span>
+                            <span class="wish-format">${format}</span>
+                            ${reason ? `<span class="wish-reason">${reason}</span>` : ''}
+                            ${recommendedBy ? `<span class="wish-recommended">Recommended by ${recommendedBy}</span>` : ''}
+                    </div>
+                    </div>
+                    <button class="wish-actions" onclick="removeWishItem(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                wishlist.appendChild(newWish);
+                
+                // Add notification
+                const notifications = document.getElementById('notifications');
+                const newNotification = document.createElement('div');
+                newNotification.className = 'notification-item';
+                newNotification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-info-circle"></i>
+                        <span>"${title}" added to your wishlist!</span>
+                    </div>
+                    <button class="delete-notification" onclick="deleteNotification(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                notifications.appendChild(newNotification);
+                
+                // Scroll to latest notification
+                notifications.scrollTop = notifications.scrollHeight;
+                
+                // Clear inputs
+                document.getElementById('wishTitle').value = '';
+                document.getElementById('wishPriority').value = 'medium';
+                document.getElementById('wishNotes').value = '';
+            }
+        }
+        
+        function removeWishItem(button) {
+            const wishItem = button.closest('.wish-item');
+            wishItem.classList.add('removing');
+            setTimeout(() => {
+                wishItem.remove();
+            }, 300);
+        }
+        // Auth Modal Functions
+        // Load Google auth library
+        function loadGoogleAuth() {
+            const script = document.createElement('script');
+            script.src = 'https://accounts.google.com/gsi/client';
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+        }
+        
+        // Initialize Google auth
+        function initGoogleAuth() {
+            google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID_HERE',
+                callback: handleGoogleSignIn
+            });
+            
+            google.accounts.id.renderButton(
+                document.getElementById('googleSignInBtn'),
+                { theme: 'outline', size: 'large' }
+            );
+        }
+        
+        // Handle Google sign in
+        function handleGoogleSignIn(response) {
+            const user = parseJwt(response.credential);
+            alert(`Welcome ${user.name}! You're now signed in with Google.`);
+            closeAuthModal();
+        }
+        
+        // Parse JWT token
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(atob(base64));
+        }
+        
+        function openAuthModal(type) {
+            const modal = document.getElementById('authModal');
+            const title = document.getElementById('authTitle');
+            const form = document.getElementById('authForm');
+            
+            if (type === 'login') {
+                title.textContent = 'Login';
+                form.innerHTML = `
+                    <div id="googleSignInBtn" class="google-btn"></div>
+                    <div class="divider">or</div>
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <p class="auth-switch">Don't have an account? <a href="#" onclick="openAuthModal('signup')">Sign up</a></p>
+                `;
+                loadGoogleAuth();
+                if (typeof google !== 'undefined') {
+                    initGoogleAuth();
+                }
+            } else {
+                title.textContent = 'Sign Up';
+                form.innerHTML = `
+                    <div id="googleSignInBtn" class="google-btn"></div>
+                    <div class="divider">or</div>
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Password" required>
+                    <input type="password" placeholder="Confirm Password" required>
+                    <button type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
+                    <p class="auth-switch">Already have an account? <a href="#" onclick="openAuthModal('login')">Login</a></p>
+                `;
+                loadGoogleAuth();
+                if (typeof google !== 'undefined') {
+                    initGoogleAuth();
+                }
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function deleteNotification(button) {
+            const notification = button.closest('.notification-item');
+            notification.classList.add('removing');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        // Tracking system functions
+        function openTrackingTab(tabName) {
+            // Hide all tab content
+            document.querySelectorAll('.tracking-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tracking-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show current tab and mark as active
+            document.getElementById(tabName + '-tab').classList.add('active');
+            document.querySelector(`.tracking-tab[onclick="openTrackingTab('${tabName}')"]`).classList.add('active');
+            
+            // Refresh tracking items
+            renderTrackingItems(tabName);
+        }
+
+        function renderTrackingItems(status) {
+            const container = document.getElementById(status + '-tracking');
+            container.innerHTML = '';
+            
+            orders[status].forEach(order => {
+                const item = document.createElement('div');
+                item.className = 'track-item';
+                
+                let icon = 'fa-hourglass-half';
+                if (status === 'shipped') icon = 'fa-truck';
+                if (status === 'delivered') icon = 'fa-check-circle';
+                if (status === 'returned') icon = 'fa-undo';
+                
+                item.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <div class="track-details">
+                        <strong>${order.book}</strong>
+                        <div class="track-status">${order.status}</div>
+                        ${order.daysLeft > 0 ? 
+                            '<div class="track-days">' + order.daysLeft + ' days remaining</div>' : 
+                            '<div class="track-days">Completed</div>'}
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        // Initialize tracking system
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLocationFilter();
+            renderTrackingItems('pending');
+            renderTrackingItems('shipped');
+            renderTrackingItems('delivered');
+            renderTrackingItems('returned');
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('authModal');
+            if (event.target === modal) {
+                closeAuthModal();
+            }
+        }
+    </script>
+    </div>
+
+    <footer style="
+        text-align: center;
+        margin: 2rem auto;
+        padding: 1rem;
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: var(--shadow);
+        font-size: 0.9rem;
+        color: var(--primary);
+        max-width: 800px;
+    ">
+        <div>Made with ❤ by <strong>The Hackons</strong></div>
+        <div style="margin-top: 0.5rem;">
+            Aryan Choudhary, Vardan Dagar, Srishti Gupta | 
+            MIET College | 2025
+        </div>
+    </footer>
+</body>
+</html>
