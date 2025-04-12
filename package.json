@@ -18,7 +18,7 @@
     "express",
     "mongodb"
   ],
-  "author": "BB <vardandagar21@gmail.com>",
+  "author": "Book Buddies <vardandagar21@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
