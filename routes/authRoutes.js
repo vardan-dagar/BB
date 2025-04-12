@@ -1,9 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const authController = require('../controllers/authController');
 const auth = require('../middleware/auth');
 const { login, register } = require('../controllers/authController');
 const express = require('express');
+// Correct way to import and use controllers
+const { specificFunction } = require('../controllers/controllerFile');
+router.get('/endpoint', specificFunction);
 const router = express.Router();
 
 router.post('/register', register);
